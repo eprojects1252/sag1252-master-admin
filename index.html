@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12231d">
+  <meta name="description" content="Sri Amirthaa Groups 1252 Master Admin Panel">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Sri Amirthaa Groups 1252 | Master Admin</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f3f6f4; --panel:#ffffff; --ink:#17251f; --muted:#69766f; --line:#dce5df; --brand:#176b4a; --brand2:#dff2e8; --danger:#a33131; --shadow:0 8px 26px rgba(20,45,33,.08); }
+    @media (prefers-color-scheme:dark) { :root { --bg:#101713; --panel:#18221c; --ink:#eef5f0; --muted:#a4b2a9; --line:#304037; --brand:#5ac28c; --brand2:#213e30; --danger:#ff9292; --shadow:0 8px 26px rgba(0,0,0,.18); } }
+    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+    button,input { font:inherit; } button { cursor:pointer; } .hidden { display:none!important; }
+    .topbar { background:#12231d; color:#f5fff8; padding:16px max(16px,env(safe-area-inset-right)) 16px max(16px,env(safe-area-inset-left)); display:flex; align-items:center; justify-content:space-between; gap:12px; position:sticky; top:0; z-index:5; }
+    .brand { display:flex; align-items:center; gap:11px; min-width:0; } .logo { width:42px;height:42px;border-radius:13px;background:#dff2e8;color:#176b4a;display:grid;place-items:center;font-weight:900;flex-shrink:0; } .brand h1 { font-size:15px; line-height:1.25; margin:0; } .brand p { margin:4px 0 0;color:#bad0c3;font-size:11px; }
+    .pill { border:1px solid #3d5b4b; color:#d6f5e3; border-radius:999px;padding:5px 9px;font-size:11px;white-space:nowrap; }
+    main { max-width:1100px; margin:0 auto; padding:18px 14px 40px; } .notice { border:1px solid #e7c98b; background:#fff6df; color:#5f4817; padding:12px 14px;border-radius:14px;font-size:13px;margin-bottom:16px; } @media(prefers-color-scheme:dark){.notice{background:#392f1b;color:#ffe8ad;border-color:#705b2b}}
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:var(--shadow); } .auth-wrap { max-width:460px;margin:26px auto; } h2 { font-size:22px; margin:0 0 6px;letter-spacing:-.3px; } .sub { color:var(--muted);font-size:13px;margin:0 0 18px; } label { display:block;font-weight:650;font-size:13px;margin:12px 0 6px; } input { width:100%;padding:12px 13px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:11px;outline-offset:2px; } .btn { border:0;border-radius:11px;padding:12px 14px;background:var(--brand);color:white;font-weight:700;width:100%;margin-top:12px; } .btn.secondary { background:var(--brand2);color:var(--brand);border:1px solid var(--line); } .btn.ghost { background:transparent;color:var(--ink);border:1px solid var(--line); } .btn.small { width:auto;margin:0;padding:8px 11px;font-size:12px; }
+    .switches { display:flex;gap:8px;margin:16px 0; } .switches button { flex:1; } .status { margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:10px;color:var(--muted);font-size:12px;overflow-wrap:anywhere; }
+    .layout { display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px; } .sidebar { align-self:start;position:sticky;top:86px; } .nav { display:grid;gap:6px; } .nav button { border:0;background:transparent;color:var(--muted);padding:11px 12px;text-align:left;border-radius:10px;font-weight:650; } .nav button.active,.nav button:hover { background:var(--brand2);color:var(--brand); }
+    .headrow { display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px; } .headrow p { margin:4px 0 0;color:var(--muted);font-size:13px; } .stats { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0; } .stat { border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0; } .stat span { display:block;color:var(--muted);font-size:12px; } .stat strong { display:block;font-size:24px;margin-top:5px;letter-spacing:-.5px; }
+    .modules { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; } .module { border:1px solid var(--line);border-radius:14px;padding:15px; } .module .ico { font-size:22px; } .module h3 { font-size:15px;margin:7px 0 3px; } .module p { font-size:12px;color:var(--muted);margin:0; } .tag { display:inline-block;font-size:10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);padding:4px 7px;margin-top:10px;color:var(--muted); }
+    .tablebox { border:1px solid var(--line);border-radius:13px;overflow:hidden; } .rowline { display:flex;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--line);font-size:13px; } .rowline:last-child { border-bottom:0; } .rowline span:last-child { color:var(--muted);text-align:right; }
+    .mobile-nav { display:none; } .foot { color:var(--muted);font-size:11px;text-align:center;padding:20px 8px; }
+    @media(max-width:720px) { main{padding:14px 12px 30px}.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;gap:6px;overflow:auto;margin-bottom:12px;padding-bottom:4px}.mobile-nav button{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);padding:8px 11px;font-size:12px}.mobile-nav button.active{background:var(--brand2);color:var(--brand);border-color:var(--brand)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modules{grid-template-columns:1fr}.topbar{padding-top:12px;padding-bottom:12px}.pill{font-size:10px} }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">SA</div><div><h1>Sri Amirthaa Groups 1252</h1><p>MASTER ADMIN PANEL</p></div></div>
+    <span id="connectionPill" class="pill">DEMO PREVIEW</span>
+  </header>
+  <main>
+    <div class="notice"><strong>Setup status:</strong> This is the first PWA starter. Sign-in uses Firebase Authentication, but database access remains locked until secure admin roles and rules are configured. Do not treat a successful login as proof of Chief Admin privileges.</div>
+
+    <section id="authScreen" class="auth-wrap panel">
+      <h2>Welcome back</h2><p class="sub">Sign in to the Master Admin workspace.</p>
+      <div class="switches"><button id="loginTab" class="btn small">Sign in</button><button id="signupTab" class="btn small secondary">Create account</button></div>
+      <form id="authForm">
+        <label for="email">Admin email</label><input id="email" type="email" autocomplete="username" placeholder="admin@company.com" required>
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required>
+        <button id="submitAuth" class="btn" type="submit">Sign in with email</button>
+      </form>
+      <button id="googleBtn" class="btn secondary" type="button">Continue with Google</button>
+      <div id="authMessage" class="status" role="status">Firebase Authentication will be checked when this file is served over HTTPS or localhost.</div>
+      <button id="previewBtn" class="btn ghost" type="button">Open UI demo without signing in</button>
+    </section>
+
+    <section id="appScreen" class="hidden">
+      <div class="layout">
+        <aside class="sidebar panel"><div class="nav" id="sideNav"></div><hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><button id="signoutBtn" class="btn ghost">Sign out</button></aside>
+        <div>
+          <div class="mobile-nav" id="mobileNav"></div>
+          <section class="panel">
+            <div class="headrow"><div><h2 id="pageTitle">Overview</h2><p id="pageSubtitle">Your group-wide operations at a glance.</p></div><button id="installBtn" class="btn small hidden">Install app</button></div>
+            <div id="pageContent"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <div class="foot">Sri Amirthaa Groups 1252 · PWA starter · Not yet production-authorized</div>
+  </main>
+<script type="module">
+  // Public Firebase web configuration. Never put service-account keys or payment secrets in this file.
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYGKCk4wLXjoF5hgbq34YZ0iY6SfRyGjw",
+    authDomain: "sriamirthaagroups1252chifpanel.firebaseapp.com",
+    projectId: "sriamirthaagroups1252chifpanel",
+    storageBucket: "sriamirthaagroups1252chifpanel.firebasestorage.app",
+    messagingSenderId: "219951098709",
+    appId: "1:219951098709:web:4b7c05268d3018bf181ddc",
+    databaseURL: "https://sriamirthaagroups1252chifpanel-default-rtdb.asia-southeast1.firebasedatabase.app"
+  };
+  const $ = (id) => document.getElementById(id);
+  let auth = null, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged;
+  let mode = 'login', currentUser = null, deferredInstall = null, isDemo = false;
+  const navItems = [
+    ['overview','Overview','Group operations overview'],
+    ['admins','Admin Management','Admin list and role workflow'],
+    ['security','Security & Activity Logs','Access controls and audit trail'],
+    ['wallet','Wallet','Sri Amirthaa Groups 1252 Wallet'],
+    ['hosting','Cloud Hosting','Hosting module'],
+    ['otp','OTP / SMS','OTP provider module'],
+    ['market','Share Market','Internal market module'],
+    ['integrations','Integrations','Connect modules after core security']
+  ];
+  const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function setMessage(text) { $('authMessage').textContent = text; }
+  function setMode(next) { mode=next; $('loginTab').className='btn small'+(mode==='login'?'':' secondary'); $('signupTab').className='btn small'+(mode==='signup'?'':' secondary'); $('submitAuth').textContent=mode==='login'?'Sign in with email':'Create account'; $('password').autocomplete=mode==='login'?'current-password':'new-password'; setMessage(mode==='login'?'Sign in with your Firebase Authentication account.':'Create an account; new accounts do not automatically receive admin permissions.'); }
+  $('loginTab').addEventListener('click',()=>setMode('login')); $('signupTab').addEventListener('click',()=>setMode('signup'));
+  function showApp(user, demo=false) { currentUser=user; isDemo=demo; $('authScreen').classList.add('hidden'); $('appScreen').classList.remove('hidden'); $('connectionPill').textContent=demo?'UI DEMO':(user?'AUTHENTICATED · ROLE NOT VERIFIED':'DEMO PREVIEW'); renderNav(); renderPage('overview'); }
+  function showAuth(message='Signed out.') { currentUser=null;isDemo=false;$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');$('connectionPill').textContent='DEMO PREVIEW';setMessage(message); }
+  function renderNav() { const html=navItems.map(([id,label])=>`<button type="button" data-page="${id}">${label}</button>`).join(''); $('sideNav').innerHTML=html; $('mobileNav').innerHTML=html; document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>renderPage(b.dataset.page))); }
+  function renderPage(id) {
+    const item=navItems.find(x=>x[0]===id)||navItems[0]; $('pageTitle').textContent=item[1]; $('pageSubtitle').textContent=item[2];
+    document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+    const status=isDemo?'Demo only — no data saved.':'Signed in identity confirmed; privileged role and database access are not yet configured.';
+    const pages={
+      overview:`<div class="stats"><div class="stat"><span>Business modules</span><strong>4</strong></div><div class="stat"><span>Admin roles configured</span><strong>0</strong></div><div class="stat"><span>Database access</span><strong>Locked</strong></div></div><h3>Business modules</h3><div class="modules"><article class="module"><div class="ico">▣</div><h3>Wallet</h3><p>Wallet settings, customer support and later ledger review.</p><span class="tag">Not connected</span></article><article class="module"><div class="ico">☁</div><h3>Cloud Hosting</h3><p>Hosting plans, sites and customer dashboard.</p><span class="tag">Planned</span></article><article class="module"><div class="ico">✉</div><h3>OTP / SMS</h3><p>Provider accounts, SMS balances and usage.</p><span class="tag">Planned</span></article><article class="module"><div class="ico">↗</div><h3>Share Market</h3><p>Internal product market configuration and history.</p><span class="tag">Planned</span></article></div><div class="status" style="margin-top:16px">${esc(status)}</div>`,
+      admins:`<p class="sub">Role-based admin management will be enabled only after a trusted server assigns roles.</p><div class="tablebox"><div class="rowline"><strong>Chief Admin</strong><span>Not assigned securely</span></div><div class="rowline"><strong>Administrators</strong><span>0 configured</span></div><div class="rowline"><strong>Self-service role changes</strong><span>Blocked by design</span></div></div><div class="notice" style="margin-top:14px">Do not add a role by editing a client-side field. A server-side privileged process must assign the first Chief Admin.</div>`,
+      security:`<div class="tablebox"><div class="rowline"><strong>Authentication</strong><span>${currentUser?'Signed in':'Demo'}</span></div><div class="rowline"><strong>Realtime Database</strong><span>Locked (.read/.write false)</span></div><div class="rowline"><strong>Audit logs</strong><span>Not configured yet</span></div><div class="rowline"><strong>MFA</strong><span>Not verified</span></div></div><p class="sub" style="margin-top:14px">Audit logs must be written by trusted server code with server timestamps and protected from client edits.</p>`,
+      wallet:`<div class="status">Wallet module placeholder. No customer balances or payment actions are available in this starter.</div><p>Planned: customer lookup, wallet configuration, cashback policy, transaction review and Razorpay server-side integration.</p>`,
+      hosting:`<div class="status">Cloud Hosting module placeholder.</div><p>Planned: hosting plans, customer sites, deployment status and billing overview.</p>`,
+      otp:`<div class="status">OTP / SMS module placeholder.</div><p>Planned: provider status, message usage, reseller customer accounts and pricing. Provider API secrets must stay server-side.</p>`,
+      market:`<div class="status">Share Market module placeholder.</div><p>Planned: internal product prices, change history and admin controls. No simulated prices are shown as real market data.</p>`,
+      integrations:`<div class="status">Integrations are postponed until the core panel and permissions are secure.</div><p>Each separate Firebase project will need a secure, least-privilege server-side integration; a master panel cannot automatically control other projects.</p>`
+    };
+    $('pageContent').innerHTML=pages[id]||pages.overview;
+  }
+  $('authForm').addEventListener('submit', async e=>{ e.preventDefault(); if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost, then try again.');return;} const email=$('email').value.trim(), password=$('password').value; $('submitAuth').disabled=true;setMessage('Please wait…');try{ if(mode==='signup') await createUserWithEmailAndPassword(auth,email,password); else await signInWithEmailAndPassword(auth,email,password); }catch(err){setMessage((err.code||'auth/error')+': '+(err.message||'Authentication failed'));}finally{$('submitAuth').disabled=false;} });
+  $('googleBtn').addEventListener('click',async()=>{ if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost.');return;}try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(err){setMessage((err.code||'auth/error')+': '+(err.message||'Google sign-in failed'));} });
+  $('signoutBtn').addEventListener('click',async()=>{if(auth&&!isDemo) await signOut(auth);showAuth('Signed out.');});
+  $('previewBtn').addEventListener('click',()=>showApp(null,true));
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('installBtn').classList.remove('hidden');});
+  $('installBtn').addEventListener('click',async()=>{if(!deferredInstall){setMessage('On Android Chrome, open the browser menu and choose Install app or Add to Home screen.');return;}deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('installBtn').classList.add('hidden');});
+  if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  try {
+    const appSdk=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js');
+    const authSdk=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js');
+    const app=appSdk.initializeApp(firebaseConfig); auth=authSdk.getAuth(app);
+    ({createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,onAuthStateChanged}=authSdk);
+    onAuthStateChanged(auth,user=>{ if(user){showApp(user,false);$('connectionPill').textContent='AUTHENTICATED · ROLE NOT VERIFIED'; }else if(!isDemo){showAuth('Firebase Authentication is ready. Sign in to continue.');} });
+    setMessage('Firebase Authentication SDK loaded. Database remains locked until roles and rules are configured.');
+  } catch(err) { setMessage('Could not load Firebase SDK in this preview. In the deployed HTTPS PWA, check internet access and Firebase configuration.'); }
+</script>
+</body>
+</html>

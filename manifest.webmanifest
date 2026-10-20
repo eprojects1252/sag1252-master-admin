@@ -1,0 +1,14 @@
+{
+  "id": "./",
+  "name": "Sri Amirthaa Groups 1252 Master Admin Panel",
+  "short_name": "SAG1252 Admin",
+  "description": "Master administration workspace for Sri Amirthaa Groups 1252",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f4",
+  "theme_color": "#12231d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

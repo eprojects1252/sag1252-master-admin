@@ -9,8 +9,8 @@
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <title>Sri Amirthaa Groups 1252 | Master Admin</title>
   <style>
-    :root { color-scheme: light dark; --bg:#f3f6f4; --panel:#ffffff; --ink:#17251f; --muted:#69766f; --line:#dce5df; --brand:#176b4a; --brand2:#dff2e8; --danger:#a33131; --shadow:0 8px 26px rgba(20,45,33,.08); }
-    @media (prefers-color-scheme:dark) { :root { --bg:#101713; --panel:#18221c; --ink:#eef5f0; --muted:#a4b2a9; --line:#304037; --brand:#5ac28c; --brand2:#213e30; --danger:#ff9292; --shadow:0 8px 26px rgba(0,0,0,.18); } }
+    :root { color-scheme: light; --bg:#f3f7f5; --panel:#ffffff; --ink:#17251f; --muted:#68786f; --line:#dce7e0; --brand:#176b4a; --brand2:#e1f4e9; --danger:#a33131; --shadow:0 12px 34px rgba(20,45,33,.075); --radius:20px; }
+    @media (prefers-color-scheme:dark) { :root { color-scheme:dark; --bg:#101713; --panel:#18221c; --ink:#eef5f0; --muted:#a4b2a9; --line:#304037; --brand:#5ac28c; --brand2:#213e30; --danger:#ff9292; --shadow:0 12px 34px rgba(0,0,0,.22); } }
     * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
     button,input { font:inherit; } button { cursor:pointer; } .hidden { display:none!important; }
     .topbar { background:#12231d; color:#f5fff8; padding:16px max(16px,env(safe-area-inset-right)) 16px max(16px,env(safe-area-inset-left)); display:flex; align-items:center; justify-content:space-between; gap:12px; position:sticky; top:0; z-index:5; }
@@ -24,6 +24,26 @@
     .modules { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; } .module { border:1px solid var(--line);border-radius:14px;padding:15px; } .module .ico { font-size:22px; } .module h3 { font-size:15px;margin:7px 0 3px; } .module p { font-size:12px;color:var(--muted);margin:0; } .tag { display:inline-block;font-size:10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);padding:4px 7px;margin-top:10px;color:var(--muted); }
     .tablebox { border:1px solid var(--line);border-radius:13px;overflow:hidden; } .rowline { display:flex;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--line);font-size:13px; } .rowline:last-child { border-bottom:0; } .rowline span:last-child { color:var(--muted);text-align:right; }
     .mobile-nav { display:none; } .foot { color:var(--muted);font-size:11px;text-align:center;padding:20px 8px; }
+    body { background-image: radial-gradient(ellipse at 10% 0%, rgba(23,107,74,.07), transparent 35%); }
+    .topbar { box-shadow:0 8px 28px rgba(0,0,0,.12); }
+    .logo { box-shadow:inset 0 0 0 1px rgba(23,107,74,.12); }
+    main { max-width:1240px; padding-top:24px; }
+    .panel { border-radius:var(--radius); }
+    .auth-wrap { margin-top:34px; }
+    .auth-wrap h2 { font-size:27px; letter-spacing:-.7px; }
+    .btn { transition:transform .16s ease, box-shadow .16s ease, opacity .16s ease; box-shadow:0 4px 12px rgba(23,107,74,.12); }
+    .btn:hover { transform:translateY(-1px); }
+    .btn:focus-visible, .nav button:focus-visible, input:focus-visible { outline:3px solid rgba(23,107,74,.32); outline-offset:2px; }
+    .btn:disabled { opacity:.6; cursor:wait; transform:none; }
+    .nav button { transition:background .15s ease,color .15s ease; }
+    .stat { background:linear-gradient(145deg,var(--panel),var(--bg)); }
+    .stat strong { overflow-wrap:anywhere; }
+    .module { background:linear-gradient(145deg,var(--panel),var(--bg)); transition:transform .16s ease,border-color .16s ease; }
+    .module:hover { transform:translateY(-2px); border-color:var(--brand); }
+    .notice { border-radius:14px; }
+    .security-banner { border:1px solid #e7c98b; background:#fff6df; color:#5f4817; padding:12px 14px; border-radius:13px; margin-bottom:14px; font-size:13px; }
+    @media(prefers-color-scheme:dark){.security-banner{background:#392f1b;color:#ffe8ad;border-color:#705b2b}}
+    @media(max-width:720px) { main{padding-top:14px}.auth-wrap{margin-top:18px}.auth-wrap h2{font-size:24px}.panel{padding:15px}.stat{padding:12px}.stat strong{font-size:22px} }
     @media(max-width:720px) { main{padding:14px 12px 30px}.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;gap:6px;overflow:auto;margin-bottom:12px;padding-bottom:4px}.mobile-nav button{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);padding:8px 11px;font-size:12px}.mobile-nav button.active{background:var(--brand2);color:var(--brand);border-color:var(--brand)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modules{grid-template-columns:1fr}.topbar{padding-top:12px;padding-bottom:12px}.pill{font-size:10px} }
   </style>
 </head>
@@ -43,7 +63,7 @@
         <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required>
         <button id="submitAuth" class="btn" type="submit">Sign in with email</button>
       </form>
-      <button id="googleBtn" class="btn secondary" type="button">Continue with Google</button>
+      <button id="googleBtn" class="btn secondary" type="button">Continue with Google</button>\n      <button id="resetPasswordBtn" class="btn ghost" type="button">Forgot password? Send reset email</button>
       <div id="authMessage" class="status" role="status">Firebase Authentication will be checked when this file is served over HTTPS or localhost.</div>
       <button id="previewBtn" class="btn ghost" type="button">Open UI demo without signing in</button>
     </section>
@@ -55,7 +75,7 @@
           <div class="mobile-nav" id="mobileNav"></div>
           <section class="panel">
             <div class="headrow"><div><h2 id="pageTitle">Overview</h2><p id="pageSubtitle">Your group-wide operations at a glance.</p></div><button id="installBtn" class="btn small hidden">Install app</button></div>
-            <div id="pageContent"></div>
+            <div id="roleWarning" class="security-banner hidden" role="alert">Security notice: your identity is signed in, but Admin role authorization has not been verified. Privileged operations remain disabled.</div><div id="pageContent"></div>
           </section>
         </div>
       </div>
@@ -74,7 +94,7 @@
     databaseURL: "https://sriamirthaagroups1252chifpanel-default-rtdb.asia-southeast1.firebasedatabase.app"
   };
   const $ = (id) => document.getElementById(id);
-  let auth = null, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged;
+  let auth = null, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail;
   let mode = 'login', currentUser = null, deferredInstall = null, isDemo = false;
   const navItems = [
     ['overview','Overview','Group operations overview'],
@@ -90,8 +110,8 @@
   function setMessage(text) { $('authMessage').textContent = text; }
   function setMode(next) { mode=next; $('loginTab').className='btn small'+(mode==='login'?'':' secondary'); $('signupTab').className='btn small'+(mode==='signup'?'':' secondary'); $('submitAuth').textContent=mode==='login'?'Sign in with email':'Create account'; $('password').autocomplete=mode==='login'?'current-password':'new-password'; setMessage(mode==='login'?'Sign in with your Firebase Authentication account.':'Create an account; new accounts do not automatically receive admin permissions.'); }
   $('loginTab').addEventListener('click',()=>setMode('login')); $('signupTab').addEventListener('click',()=>setMode('signup'));
-  function showApp(user, demo=false) { currentUser=user; isDemo=demo; $('authScreen').classList.add('hidden'); $('appScreen').classList.remove('hidden'); $('connectionPill').textContent=demo?'UI DEMO':(user?'AUTHENTICATED · ROLE NOT VERIFIED':'DEMO PREVIEW'); renderNav(); renderPage('overview'); }
-  function showAuth(message='Signed out.') { currentUser=null;isDemo=false;$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');$('connectionPill').textContent='DEMO PREVIEW';setMessage(message); }
+  function showApp(user, demo=false) { currentUser=user; isDemo=demo; $('authScreen').classList.add('hidden'); $('appScreen').classList.remove('hidden'); $('roleWarning').classList.toggle('hidden',!user||demo); $('connectionPill').textContent=demo?'UI DEMO':(user?'AUTHENTICATED · ROLE NOT VERIFIED':'DEMO PREVIEW'); renderNav(); renderPage('overview'); }
+  function showAuth(message='Signed out.') { currentUser=null;isDemo=false;$('roleWarning').classList.add('hidden');$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');$('connectionPill').textContent='SIGN IN REQUIRED';setMessage(message); }
   function renderNav() { const html=navItems.map(([id,label])=>`<button type="button" data-page="${id}">${label}</button>`).join(''); $('sideNav').innerHTML=html; $('mobileNav').innerHTML=html; document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>renderPage(b.dataset.page))); }
   function renderPage(id) {
     const item=navItems.find(x=>x[0]===id)||navItems[0]; $('pageTitle').textContent=item[1]; $('pageSubtitle').textContent=item[2];
@@ -109,8 +129,31 @@
     };
     $('pageContent').innerHTML=pages[id]||pages.overview;
   }
-  $('authForm').addEventListener('submit', async e=>{ e.preventDefault(); if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost, then try again.');return;} const email=$('email').value.trim(), password=$('password').value; $('submitAuth').disabled=true;setMessage('Please wait…');try{ if(mode==='signup') await createUserWithEmailAndPassword(auth,email,password); else await signInWithEmailAndPassword(auth,email,password); }catch(err){setMessage((err.code||'auth/error')+': '+(err.message||'Authentication failed'));}finally{$('submitAuth').disabled=false;} });
-  $('googleBtn').addEventListener('click',async()=>{ if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost.');return;}try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(err){setMessage((err.code||'auth/error')+': '+(err.message||'Google sign-in failed'));} });
+  $('authForm').addEventListener('submit', async e=>{ e.preventDefault(); if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost, then try again.');return;} const email=$('email').value.trim(), password=$('password').value; $('submitAuth').disabled=true;setMessage('Please wait…');try{ if(mode==='signup') await createUserWithEmailAndPassword(auth,email,password); else await signInWithEmailAndPassword(auth,email,password); }catch(err){setMessage(authErrorMessage(err));}finally{$('submitAuth').disabled=false;} });
+  $('googleBtn').addEventListener('click',async()=>{ if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost.');return;} const btn=$('googleBtn');btn.disabled=true;setMessage('Opening Google sign-in…');try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(err){setMessage(authErrorMessage(err));}finally{btn.disabled=false;} });
+  function authErrorMessage(err) {
+    const messages = {
+      'auth/invalid-email':'Email address format is invalid.',
+      'auth/user-not-found':'No account found for this email.',
+      'auth/wrong-password':'Password is incorrect.',
+      'auth/invalid-credential':'Email or password is incorrect.',
+      'auth/email-already-in-use':'An account already exists for this email.',
+      'auth/weak-password':'Choose a stronger password (at least 6 characters).',
+      'auth/too-many-requests':'Too many attempts. Please wait and try again.',
+      'auth/popup-closed-by-user':'Google sign-in was cancelled.',
+      'auth/unauthorized-domain':'This website domain is not authorized in Firebase Authentication.'
+    };
+    return messages[err?.code] || 'Authentication could not be completed. Please check Firebase settings and try again.';
+  }
+  $('resetPasswordBtn').addEventListener('click', async()=>{
+    if(!auth || !sendPasswordResetEmail){setMessage('Firebase SDK is not ready. Open this site over HTTPS and try again.');return;}
+    const email=$('email').value.trim();
+    if(!email){$('email').focus();setMessage('Enter your admin email above first.');return;}
+    const btn=$('resetPasswordBtn');btn.disabled=true;setMessage('Sending password reset email…');
+    try{await sendPasswordResetEmail(auth,email);setMessage('If this email is registered, a password reset message will be sent. Check your inbox and spam folder.');}
+    catch(err){setMessage(authErrorMessage(err));}
+    finally{btn.disabled=false;}
+  });
   $('signoutBtn').addEventListener('click',async()=>{if(auth&&!isDemo) await signOut(auth);showAuth('Signed out.');});
   $('previewBtn').addEventListener('click',()=>showApp(null,true));
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('installBtn').classList.remove('hidden');});
@@ -120,7 +163,7 @@
     const appSdk=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js');
     const authSdk=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js');
     const app=appSdk.initializeApp(firebaseConfig); auth=authSdk.getAuth(app);
-    ({createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,onAuthStateChanged}=authSdk);
+    ({createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,onAuthStateChanged,sendPasswordResetEmail}=authSdk);
     onAuthStateChanged(auth,user=>{ if(user){showApp(user,false);$('connectionPill').textContent='AUTHENTICATED · ROLE NOT VERIFIED'; }else if(!isDemo){showAuth('Firebase Authentication is ready. Sign in to continue.');} });
     setMessage('Firebase Authentication SDK loaded. Database remains locked until roles and rules are configured.');
   } catch(err) { setMessage('Could not load Firebase SDK in this preview. In the deployed HTTPS PWA, check internet access and Firebase configuration.'); }

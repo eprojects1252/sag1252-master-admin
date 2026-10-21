@@ -22,3 +22,16 @@
 
 ## Next required step
 Choose a safe, privileged role-assignment approach that does not expose private keys in the browser. Since Cloud Functions deployment currently requests a billing upgrade, keep database rules locked while evaluating alternatives.
+
+
+## Dashboard update (2026-10)
+- Refreshed responsive visual styling, cards, spacing, focus states, and button feedback.
+- Added Firebase password-reset email flow.
+- Replaced raw Firebase error details with clearer user-facing messages.
+- Added a visible warning for signed-in users whose Admin role is not verified.
+- Bumped service-worker cache to v2 so deployed clients can receive the updated shell.
+
+Security and functionality boundary:
+- These changes do not grant Admin/Chief Admin privileges.
+- Admin Management, audit logs, wallet, hosting, OTP/SMS, market and integrations remain informational placeholders until trusted server-side services and authorization rules are implemented.
+- Firebase Realtime Database rules remain locked. Do not loosen them to make the UI appear functional.

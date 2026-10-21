@@ -45,6 +45,39 @@
     @media(prefers-color-scheme:dark){.security-banner{background:#392f1b;color:#ffe8ad;border-color:#705b2b}}
     @media(max-width:720px) { main{padding-top:14px}.auth-wrap{margin-top:18px}.auth-wrap h2{font-size:24px}.panel{padding:15px}.stat{padding:12px}.stat strong{font-size:22px} }
     @media(max-width:720px) { main{padding:14px 12px 30px}.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;gap:6px;overflow:auto;margin-bottom:12px;padding-bottom:4px}.mobile-nav button{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);padding:8px 11px;font-size:12px}.mobile-nav button.active{background:var(--brand2);color:var(--brand);border-color:var(--brand)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modules{grid-template-columns:1fr}.topbar{padding-top:12px;padding-bottom:12px}.pill{font-size:10px} }
+  
+    /* Visible dashboard refresh v3 */
+    :root { --brand:#087f5b; --brand2:#d9f8e8; --radius:22px; --shadow:0 16px 42px rgba(13,67,47,.12); }
+    body { background:linear-gradient(135deg, rgba(8,127,91,.09) 0%, transparent 38%), var(--bg); }
+    .topbar { background:linear-gradient(112deg,#073b2b 0%,#087f5b 58%,#10a875 100%); padding-top:18px; padding-bottom:18px; }
+    .logo { width:48px; height:48px; border-radius:16px; background:linear-gradient(145deg,#f1fff7,#c9f5dd); box-shadow:0 7px 18px rgba(0,0,0,.15); }
+    .brand h1 { font-size:17px; letter-spacing:-.25px; }
+    .pill { backdrop-filter:blur(8px); }
+    main { max-width:1280px; padding:28px 18px 48px; }
+    .panel { border-radius:22px; border:1px solid color-mix(in srgb,var(--line) 75%,var(--brand)); box-shadow:var(--shadow); padding:22px; }
+    .auth-wrap { max-width:500px; margin:48px auto 0; }
+    .auth-wrap h2 { font-size:30px; line-height:1.15; letter-spacing:-.9px; }
+    .btn { border-radius:13px; min-height:43px; font-weight:700; box-shadow:0 5px 13px rgba(8,127,91,.16); }
+    .btn.primary, .btn:not(.secondary):not(.ghost) { background:linear-gradient(120deg,#087f5b,#10a875); }
+    .btn.secondary { border:1px solid var(--line); box-shadow:none; }
+    .nav button { border-radius:12px; padding:11px 13px; }
+    .nav button.active { background:var(--brand2); color:var(--brand); font-weight:800; box-shadow:inset 3px 0 0 var(--brand); }
+    .stat { border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:0 5px 18px rgba(20,45,33,.035); }
+    .stat strong { font-size:27px; letter-spacing:-.7px; }
+    .module { border:1px solid var(--line); border-radius:17px; padding:17px; box-shadow:0 5px 18px rgba(20,45,33,.035); }
+    input { border-radius:12px !important; min-height:44px; }
+    .notice, .security-banner { box-shadow:0 4px 12px rgba(80,60,10,.04); }
+    .foot { padding-top:28px; }
+    @media(max-width:720px) {
+      main { padding:14px 11px 34px; }
+      .panel { padding:16px; border-radius:18px; }
+      .auth-wrap { margin-top:22px; }
+      .auth-wrap h2 { font-size:25px; }
+      .stat { padding:13px; border-radius:15px; }
+      .stat strong { font-size:23px; }
+      .topbar { padding-top:14px; padding-bottom:14px; }
+    }
+
   </style>
 </head>
 <body>
@@ -63,7 +96,8 @@
         <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required>
         <button id="submitAuth" class="btn" type="submit">Sign in with email</button>
       </form>
-      <button id="googleBtn" class="btn secondary" type="button">Continue with Google</button>\n      <button id="resetPasswordBtn" class="btn ghost" type="button">Forgot password? Send reset email</button>
+      <button id="googleBtn" class="btn secondary" type="button">Continue with Google</button>
+      <button id="resetPasswordBtn" class="btn ghost" type="button">Forgot password? Send reset email</button>
       <div id="authMessage" class="status" role="status">Firebase Authentication will be checked when this file is served over HTTPS or localhost.</div>
       <button id="previewBtn" class="btn ghost" type="button">Open UI demo without signing in</button>
     </section>
@@ -74,7 +108,8 @@
         <div>
           <div class="mobile-nav" id="mobileNav"></div>
           <section class="panel">
-            <div class="headrow"><div><h2 id="pageTitle">Overview</h2><p id="pageSubtitle">Your group-wide operations at a glance.</p></div><button id="installBtn" class="btn small hidden">Install app</button></div>
+            <div class="headrow"><div><h2 id="pageTitle">Overview</h2><p id="pageSubtitle">Your group-wide operations at a glance.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="refreshBtn" class="btn small secondary" type="button">↻ Refresh view</button><button id="exportBtn" class="btn small secondary" type="button">Export status</button><button id="installBtn" class="btn small hidden" type="button">Install app</button></div></div>
+            <div id="actionMessage" class="status hidden" role="status" aria-live="polite"></div>
             <div id="roleWarning" class="security-banner hidden" role="alert">Security notice: your identity is signed in, but Admin role authorization has not been verified. Privileged operations remain disabled.</div><div id="pageContent"></div>
           </section>
         </div>
@@ -118,7 +153,7 @@
     document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
     const status=isDemo?'Demo only — no data saved.':'Signed in identity confirmed; privileged role and database access are not yet configured.';
     const pages={
-      overview:`<div class="stats"><div class="stat"><span>Business modules</span><strong>4</strong></div><div class="stat"><span>Admin roles configured</span><strong>0</strong></div><div class="stat"><span>Database access</span><strong>Locked</strong></div></div><h3>Business modules</h3><div class="modules"><article class="module"><div class="ico">▣</div><h3>Wallet</h3><p>Wallet settings, customer support and later ledger review.</p><span class="tag">Not connected</span></article><article class="module"><div class="ico">☁</div><h3>Cloud Hosting</h3><p>Hosting plans, sites and customer dashboard.</p><span class="tag">Planned</span></article><article class="module"><div class="ico">✉</div><h3>OTP / SMS</h3><p>Provider accounts, SMS balances and usage.</p><span class="tag">Planned</span></article><article class="module"><div class="ico">↗</div><h3>Share Market</h3><p>Internal product market configuration and history.</p><span class="tag">Planned</span></article></div><div class="status" style="margin-top:16px">${esc(status)}</div>`,
+      overview:`<div class="stats"><div class="stat"><span>Business modules</span><strong>4</strong></div><div class="stat"><span>Admin roles configured</span><strong>0</strong></div><div class="stat"><span>Database access</span><strong>Locked</strong></div></div><h3>Business modules</h3><div class="modules"><article class="module"><div class="ico">▣</div><h3>Wallet</h3><p>Wallet settings, customer support and later ledger review.</p><span class="tag">Backend required</span><button class="btn secondary" type="button" data-open-page="wallet">Open Wallet status</button></article><article class="module"><div class="ico">☁</div><h3>Cloud Hosting</h3><p>Hosting plans, sites and customer dashboard.</p><span class="tag">Backend required</span><button class="btn secondary" type="button" data-open-page="hosting">Open Hosting status</button></article><article class="module"><div class="ico">✉</div><h3>OTP / SMS</h3><p>Provider accounts, SMS balances and usage.</p><span class="tag">Backend required</span><button class="btn secondary" type="button" data-open-page="otp">Open OTP / SMS status</button></article><article class="module"><div class="ico">↗</div><h3>Share Market</h3><p>Internal product prices and history.</p><span class="tag">Backend required</span><button class="btn secondary" type="button" data-open-page="market">Open Market status</button></article></div><div class="status" style="margin-top:16px">${esc(status)}</div>`,
       admins:`<p class="sub">Role-based admin management will be enabled only after a trusted server assigns roles.</p><div class="tablebox"><div class="rowline"><strong>Chief Admin</strong><span>Not assigned securely</span></div><div class="rowline"><strong>Administrators</strong><span>0 configured</span></div><div class="rowline"><strong>Self-service role changes</strong><span>Blocked by design</span></div></div><div class="notice" style="margin-top:14px">Do not add a role by editing a client-side field. A server-side privileged process must assign the first Chief Admin.</div>`,
       security:`<div class="tablebox"><div class="rowline"><strong>Authentication</strong><span>${currentUser?'Signed in':'Demo'}</span></div><div class="rowline"><strong>Realtime Database</strong><span>Locked (.read/.write false)</span></div><div class="rowline"><strong>Audit logs</strong><span>Not configured yet</span></div><div class="rowline"><strong>MFA</strong><span>Not verified</span></div></div><p class="sub" style="margin-top:14px">Audit logs must be written by trusted server code with server timestamps and protected from client edits.</p>`,
       wallet:`<div class="status">Wallet module placeholder. No customer balances or payment actions are available in this starter.</div><p>Planned: customer lookup, wallet configuration, cashback policy, transaction review and Razorpay server-side integration.</p>`,
@@ -129,6 +164,55 @@
     };
     $('pageContent').innerHTML=pages[id]||pages.overview;
   }
+
+  // Front-end utility actions. These do not bypass Firebase security or invent backend data.
+  let currentPageId = 'overview';
+  function actionNotice(message) {
+    const box = $('actionMessage');
+    if (!box) return;
+    box.textContent = message;
+    box.classList.remove('hidden');
+  }
+  const originalRenderPage = renderPage;
+  renderPage = function(id) {
+    currentPageId = id;
+    originalRenderPage(id);
+    document.querySelectorAll('[data-open-page]').forEach(btn => {
+      btn.addEventListener('click', () => renderPage(btn.dataset.openPage));
+    });
+  };
+  $('refreshBtn').addEventListener('click', () => {
+    renderPage(currentPageId);
+    actionNotice('View refreshed. This refreshes the screen only; live records require a secured backend connection.');
+  });
+  $('exportBtn').addEventListener('click', () => {
+    const report = {
+      application: 'Sri Amirthaa Groups 1252 Master Admin',
+      generatedAt: new Date().toISOString(),
+      currentPage: currentPageId,
+      mode: isDemo ? 'UI demo' : (currentUser ? 'Firebase authenticated; admin role unverified' : 'signed out'),
+      firebaseProjectConfiguredInClient: Boolean(firebaseConfig && firebaseConfig.projectId),
+      firebaseProjectId: firebaseConfig.projectId,
+      databaseAccess: 'locked by database.rules.json',
+      adminRoleVerified: false,
+      backendFeatures: {
+        adminManagement: 'requires trusted server-side role assignment',
+        auditLogs: 'requires trusted server-side logging',
+        walletPayments: 'requires secured backend and payment provider integration',
+        hosting: 'requires hosting provider backend integration',
+        otpSms: 'requires server-side provider integration',
+        shareMarket: 'requires a trusted data source and backend'
+      }
+    };
+    const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'sag1252-admin-status.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    actionNotice('Status report downloaded. It contains configuration status only, not customer data or secrets.');
+  });
+
   $('authForm').addEventListener('submit', async e=>{ e.preventDefault(); if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost, then try again.');return;} const email=$('email').value.trim(), password=$('password').value; $('submitAuth').disabled=true;setMessage('Please wait…');try{ if(mode==='signup') await createUserWithEmailAndPassword(auth,email,password); else await signInWithEmailAndPassword(auth,email,password); }catch(err){setMessage(authErrorMessage(err));}finally{$('submitAuth').disabled=false;} });
   $('googleBtn').addEventListener('click',async()=>{ if(!auth){setMessage('Firebase SDK did not load. Serve this PWA over HTTPS or localhost.');return;} const btn=$('googleBtn');btn.disabled=true;setMessage('Opening Google sign-in…');try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(err){setMessage(authErrorMessage(err));}finally{btn.disabled=false;} });
   function authErrorMessage(err) {
